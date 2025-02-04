@@ -3,7 +3,7 @@ FROM python:3.12.5-slim
 # Allow statements and log messages to immediately appear in the Knative logs
 ENV PYTHONUNBUFFERED True
 ENV APP_HOME /app
-ENV PORT 8080
+ENV PORT 9023
 ENV HOST 0.0.0.0
 ENV STORAGE_BASE /
 ENV STORAGE_DIR storage
@@ -12,7 +12,10 @@ ENV STORAGE_DIR storage
 WORKDIR $APP_HOME
 COPY README.md pyproject.toml setup.py ./
 COPY src src/
+
 RUN pip install .
 
+expose 9023
+
 ENTRYPOINT ["gcp-storage-emulator"]
-CMD ["start"]
+CMD ["start", "--host=google_storage"]
